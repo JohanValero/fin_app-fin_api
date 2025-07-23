@@ -1,0 +1,37 @@
+services:
+  fin_app:
+    build:
+      context: ./fin_app/
+      dockerfile: Dockerfile
+    container_name: fin-app
+    ports:
+      - "3000:3000"
+    environment:
+      HOST: 0.0.0.0
+      GOOGLE_APPLICATION_CREDENTIALS: /app/credentials/service-account.json
+      GOOGLE_CLOUD_PROJECT: fin-chat-455904
+      CLOUD_STORAGE_BUCKET: fin_storage
+      PUBSUB_TOPIC: fin-chat-queue
+      WHATSAPP_ACCESS_TOKEN: EAAQi4IVSsXYBO48h0gZC7ETc9bOwjeVaJ33O19aMrzIyQfLoqm5Aha5ZAhE3ZBihs8ZBOxES9oc2HBMVAHlynZB47RjxZAP9sojoVvZCmlxinhNHkT0VxzyasB1wYxuvm5h3zJcNTHA4SdLue3FONw23Wq8lkdt7jYOA1euEZAcWuz27dHEfZADEK58LJreXprZB4MYsJ6tqxhDHMNdXOB3DyedHAs
+      PORT: 3000
+      VERIFY_TOKEN: PATATA
+    volumes:
+      - C:\Users\Johan\Documents\Credentials\fin-chat-455904-c9a22d8aec75.json:/app/credentials/service-account.json
+    networks:
+      - jv-network
+    restart: always
+  ngrok:
+    image: ngrok/ngrok:latest
+    ports:
+      - "4040:4040"
+    volumes:
+      - ./ngrok.yml:/etc/ngrok.yml
+    command: "start --all --config=/etc/ngrok.yml"
+    networks:
+      - jv-network
+    depends_on:
+      - fin_app
+    restart: always
+networks:
+  jv-network:
+    driver: bridge

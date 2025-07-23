@@ -1,0 +1,7 @@
+version: 2
+authtoken: 2vEnvC1WmjRRMT6jfHpBp3jvM8C_7k5GeBfLWKQFCWzSKaAYE
+log: stdout
+tunnels:
+  webhook:
+    proto: http
+    addr: fin_app:3000
